@@ -1,6 +1,5 @@
 package com.example.exam_manager.Steps;
 
-import static android.app.Activity.RESULT_OK;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -15,14 +14,14 @@ import com.example.exam_manager.R;
 import ernestoyaquello.com.verticalstepperform.Step;
 
 public class ExamFileStep extends Step<String>  {
-    Button b;
+   public static Button b;
     @SuppressLint("StaticFieldLeak")
    public static TextView e;
-    Context c;
+   public static Context c;
 
     public ExamFileStep(String title, Context c) {
         super(title);
-        this.c=c;
+        ExamFileStep.c =c;
     }
 
     @Override
@@ -57,9 +56,8 @@ public class ExamFileStep extends Step<String>  {
         e.setTextColor(R.color.teal_200);
         layout.setOrientation(LinearLayout.VERTICAL);
         b.setOnClickListener(v->{
-            Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            i.addCategory(Intent.CATEGORY_OPENABLE);
-            i.setType("application/pdf");
+            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("*/*");
             ((Activity)(c)).startActivityForResult(i, 1);
         });
         layout.addView(b,0);
@@ -102,9 +100,6 @@ public class ExamFileStep extends Step<String>  {
     protected void onStepMarkedAsUncompleted(boolean animated) {
 
     }
-    public static void onActivityResult(int requestCode, int resultCode, Intent data){
-    if(requestCode==1&&resultCode==RESULT_OK){
-        e.setText(data.getData().toString());
+
     }
-    }
-}
+

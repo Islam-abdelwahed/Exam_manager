@@ -2,11 +2,15 @@ package com.example.exam_manager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import com.example.exam_manager.Steps.CodesFileStep;
 import com.example.exam_manager.Steps.ExamFileStep;
 import com.example.exam_manager.Steps.Num_of_SheetStep;
+import com.example.exam_manager.Steps.Result;
+
+import java.io.File;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormView;
@@ -34,14 +38,13 @@ public class MainActivity1 extends Activity implements StepperFormListener {
 
     @Override
     public void onCompletedForm() {
-     AlertDialog.Builder builder=new AlertDialog.Builder(this);
-     builder.setMessage("THank You");
-     builder.create();
-     builder.show();
+        String s=new Upload_file().doInBackground(ExamFileStep.e.getText().toString());
 
-     new Upload_file().execute(ExamFileStep.e.getText().toString());
-
-    }
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(s);
+            builder.create();
+            builder.show();
+        }
 
     @Override
     public void onCancelledForm() {
@@ -61,7 +64,6 @@ public class MainActivity1 extends Activity implements StepperFormListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        CodesFileStep.onActivityResult(requestCode, resultCode, data);
-        ExamFileStep.onActivityResult(requestCode, resultCode, data);
+        Result.onActivityResult(requestCode, resultCode, data);
     }
 }

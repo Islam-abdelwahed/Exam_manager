@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.exam_manager.R;
+import java.io.File;
 import ernestoyaquello.com.verticalstepperform.Step;
 
 public class CodesFileStep extends Step<String> {
@@ -27,8 +29,7 @@ public class CodesFileStep extends Step<String> {
 
     @Override
     public String getStepData() {
-        String userName = e.getText().toString();
-        return userName != null ? userName : "";    }
+        return e.getText().toString();    }
 
     @Override
     public String getStepDataAsHumanReadableString() {
@@ -48,7 +49,7 @@ public class CodesFileStep extends Step<String> {
         return new  IsDataValid(isNameValid, errorMessage);
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
     protected View createStepContentLayout() {
         LinearLayout layout=new LinearLayout(getContext());
@@ -57,14 +58,17 @@ public class CodesFileStep extends Step<String> {
         b.setText("Upload Excel");
         e.setTextColor(R.color.teal_200);
         layout.setOrientation(LinearLayout.VERTICAL);
+
         b.setOnClickListener(v->{
             Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
-            i.setType("*/*");
+            i.setType("image/*");
             ((Activity)(c)).startActivityForResult(i, 2);
         });
+
         layout.addView(b, 0);
         layout.addView(e, 1);
+
         e.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -104,9 +108,6 @@ public class CodesFileStep extends Step<String> {
     protected void onStepMarkedAsUncompleted(boolean animated) {
 
     }
-    public static void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode==2&&resultCode==RESULT_OK){
-            e.setText(data.getData().toString());
-        }
+
+
     }
-}
